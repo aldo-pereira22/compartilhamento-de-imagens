@@ -9,7 +9,6 @@ describe("Cadastro de usuário", () => {
 
         let user = { name: "Aldo", email, password: "123456" }
 
-
         return request.post("/user")
             .send(user)
             .then(res => {
@@ -18,8 +17,23 @@ describe("Cadastro de usuário", () => {
                 expect(res.body.email).toEqual(email)
 
             }).catch(err => {
+                console.log(err)
                 fail(err)
             })
 
+    })
+
+    test("Deve impedir que um usuário se cadastre com os dados vazios", () => {
+
+        let user = { name: "", email: "", password: "" }
+
+        return request.post("/user")
+            .send(user)
+            .then(res => {
+                expect(res.statusCode).toEqual(400) //400 = bad request
+
+            }).catch(err => {
+                fail(err)
+            })
     })
 })
