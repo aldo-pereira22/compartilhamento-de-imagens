@@ -111,10 +111,11 @@ describe("Autenticação", () => {
         return request.post("/auth")
             .send({ email: ".email", password: "password" })
             .then(res => {
-                expect(res.statusCode()).toEqual(403)
-                expect(res.body.erors.email).toEqual("E-mail não cadastrado!")
+                expect(res.statusCode).toEqual(403)
+                expect(res.body.errors.email).toEqual("E-mail não cadastrado!")
             })
             .catch(err => {
+                console.log(err)
                 fail(err)
             })
     })
@@ -124,8 +125,8 @@ describe("Autenticação", () => {
         return request.post("/auth")
             .send({ email: mainUser.email, password: "password" })
             .then(res => {
-                expect(res.statusCode()).toEqual(403)
-                expect(res.body.erors.password).toEqual("Senha incorreta")
+                expect(res.statusCode).toEqual(403)
+                expect(res.body.errors.password).toEqual("Senha incorreta")
             })
             .catch(err => {
                 fail(err)
