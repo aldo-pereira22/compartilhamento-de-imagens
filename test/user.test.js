@@ -1,17 +1,28 @@
 const app = require('../src/app')
 const supertest = require('supertest')
 const request = supertest(app)
+let mainUser = { name: "Aldo Pereira", email: "aldo@gmail.com", password: "123456" }
 
 
 beforeAll(() => {
-    console.log("\n\nANTES DE TUDO!")
-        // Inserir usuário Aldo no banco
+    // inserir Usuário no banco de dados
+    return request.post("/user")
+        .send(mainUser)
+        .then(res => {
+
+        })
+        .catch(err => { console.log(err) })
 
 })
 
 afterAll(() => {
-    console.log("\n\nDEPOIS DE TUDO")
-        // Remover do banco
+    // Remover do banco
+    return request.delete("/user/" + mainUser.email)
+        .then(res => {})
+        .catch(err => {
+            console.log(err)
+        })
+
 })
 
 
@@ -77,6 +88,20 @@ describe("Cadastro de usuário", () => {
 
             }).catch(err => {
                 console.log(err)
+                fail(err)
+            })
+    })
+})
+
+describe("Autenticação", () => {
+    test("Deve retornar um token quando logar", () => {
+        return request.post("/auth")
+            .send({ email: mainUser.email, password: mainUser.password })
+            .then(res => {
+                expect(res.statusCode).toEqual(200)
+                expect(res.body.token).toBeDefined()
+            })
+            .catch(err => {
                 fail(err)
             })
     })
