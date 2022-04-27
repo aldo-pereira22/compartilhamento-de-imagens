@@ -2,6 +2,20 @@ const app = require('../src/app')
 const supertest = require('supertest')
 const request = supertest(app)
 
+
+beforeAll(() => {
+    console.log("\n\nANTES DE TUDO!")
+        // Inserir usuário Aldo no banco
+
+})
+
+afterAll(() => {
+    console.log("\n\nDEPOIS DE TUDO")
+        // Remover do banco
+})
+
+
+
 describe("Cadastro de usuário", () => {
     test("Deve cadastrar um usuário com sucesso!", () => {
         let time = Date.now()
